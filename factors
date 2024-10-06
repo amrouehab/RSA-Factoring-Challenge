@@ -1,0 +1,31 @@
+#!/usr/bin/python3
+import sys
+
+def factorize(n):
+    """ Factorizes a number n into two smaller numbers. """
+    p = 2
+    while p <= n // 2:
+        if n % p == 0:
+            print(f"{n}={p}*{n // p}")
+            return
+        p += 1
+    # If the number is prime
+    print(f"{n}={n}*1")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <file>")
+        sys.exit(1)
+
+    try:
+        with open(sys.argv[1], "r") as file:
+            for line in file:
+                num = int(line.strip())
+                factorize(num)
+    except FileNotFoundError:
+        print(f"Error: File {sys.argv[1]} not found")
+        sys.exit(1)
+    except ValueError:
+        print("Error: Invalid number in file")
+        sys.exit(1)

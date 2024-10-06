@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+import sys
+import math
+
+def is_prime(n):
+    """ Check if a number is prime. """
+    if n <= 1:
+        return False
+    if n == 2 or n == 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    for i in range(5, int(math.sqrt(n)) + 1, 6):
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+    return True
+
+def rsa_factorize(n):
+    """ Factorizes a number n into two prime factors. """
+    p = 2
+    while p <= math.isqrt(n):
+        if n % p == 0 and is_prime(p) and is_prime(n // p):
+            print(f"{n}={p}*{n // p}")
+            return
+        p += 1
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <file>")
+        sys.exit(1)
+
+    try:
+        with open(sys.argv[1], "r") as file:
+            for line in file:
+                num = int(line.strip())
+                rsa_factorize(num)
+    except FileNotFoundError:
+        print(f"Error: File {sys.argv[1]} not found")
+        sys.exit(1)
+    except ValueError:
+        print("Error: Invalid number in file")
+        sys.exit(1)
